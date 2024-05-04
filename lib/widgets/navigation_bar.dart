@@ -19,37 +19,48 @@ class NavBar extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: BottomAppBar(
-        elevation: 0.0,
+        clipBehavior: Clip.none,
+        padding: const EdgeInsets.all(0.0),
+        elevation: 0,
+        height: 80,
+        color: Constants.blackColor,
         child: ClipRRect(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
           child: Container(
-            height: 80,
-            color: Constants.blackColor,
+            padding: const EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Constants.greyColor),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              color: Constants.blackColor,
+            ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 item(
                   selectedIcon: Constants.selectedHome,
-                  selected: pageIndex == 0,
-                  onTap: () => onTap(0),
+                  selected: true,
                   label: '홈',
                 ),
                 item(
-                  selectedIcon: Constants.selectedHome,
-                  selected: pageIndex == 1,
-                  onTap: () => onTap(0),
+                  selectedIcon: Constants.selectedLocation,
+                  selected: false,
                   label: '스팟',
                 ),
                 const SizedBox(width: 80),
                 item(
-                  selectedIcon: Constants.selectedHome,
-                  selected: pageIndex == 2,
-                  onTap: () => onTap(0),
+                  selectedIcon: Constants.selectedChat,
+                  selected: false,
                   label: '채팅',
                 ),
                 item(
-                  selectedIcon: Constants.selectedHome,
-                  selected: pageIndex == 3,
-                  onTap: () => onTap(0),
+                  selectedIcon: Constants.selectedProfile,
+                  selected: false,
                   label: '마이',
                 ),
               ],
@@ -60,22 +71,27 @@ class NavBar extends StatelessWidget {
     );
   }
 
-  Widget item({ required String selectedIcon, bool? selected, Function()? onTap, required String label}) {
+  Widget item(
+      {required String selectedIcon, bool? selected, required String label}) {
     return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              selectedIcon,
-              colorFilter: ColorFilter.mode(selected! ? Constants.primaryColor : Colors.grey, BlendMode.srcIn),
-            ),
-            Text(label,
-              style: TextStyle(
-                fontSize: 12,
-                  color: selected ? Constants.primaryColor : Colors.grey),),
-          ],
-        ),
+      child: Column(
+        children: [
+          // Image.asset(selectedIcon),
+          SvgPicture.asset(
+            selectedIcon,
+            colorFilter: ColorFilter.mode(
+                selected! ? Constants.primaryColor : Constants.greyBottomNav,
+                BlendMode.srcIn),
+          ),
+          Text(
+            label,
+            style: TextStyle(
+                fontSize: 13,
+                color: selected
+                    ? Constants.primaryColor
+                    : Constants.greyBottomNav),
+          ),
+        ],
       ),
     );
   }
